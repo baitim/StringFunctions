@@ -2,9 +2,11 @@
 
 #include <stdio.h>
 
-int puts_(const char *string);
+int puts_(const char *s);
 
-char *strchr_(const char *string, int ch);
+char *strchr_(const char *s, int ch);
+
+int strlen_(const char *s);
 
 int main ()
 {
@@ -18,18 +20,22 @@ int main ()
 
         printf("%d\n", s - "abcdef" + 1);
 
+        int n = strlen_("github?");
+
+        printf("%d\n", n);
+
         return 0;
 }
 
-int puts_(const char *string)
+int puts_(const char *s)
 {
-        if (string == NULL)
+        if (s == NULL)
                 return EOF;
 
         int i = 0;
 
-        while (string[i]) {
-                if (putchar(string[i]) == EOF)
+        while (s[i]) {
+                if (putchar(s[i]) == EOF)
                         return EOF;
                 i++;
         }
@@ -40,9 +46,9 @@ int puts_(const char *string)
         return 1;
 }
 
-char *strchr_(const char *string, int ch)
+char *strchr_(const char *s, int ch)
 {
-        if (string == NULL)
+        if (s == NULL)
                 return NULL;
 
         if ((ch > 255) || (ch < 0))
@@ -50,11 +56,20 @@ char *strchr_(const char *string, int ch)
 
         int i = 0;
 
-        while (string[i]) {
-                if (string[i] == ch)
-                        return const_cast<char *>(&string[i]);
+        while (s[i]) {
+                if (s[i] == ch)
+                        return const_cast<char *>(&s[i]);
                 i++;
         }
 
         return NULL;
+}
+
+int strlen_(const char *s)
+{
+        int i = 0;
+        while (s[i])
+                i++;
+
+        return i;
 }
