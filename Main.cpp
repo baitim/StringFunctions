@@ -1,6 +1,7 @@
 #include "ANSI_colors.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 const int MAX_SIZE = 1000;
 
@@ -19,6 +20,10 @@ char *strcat_(char *s, const char *t);
 char *strncat_(char *s, const char *t, const int n);
 
 char *fgets_(char *s, const int n, FILE *stream);
+
+char *strdup_(char *s);
+
+int getline_(char *s, int n);
 
 int main ()
 {
@@ -55,6 +60,14 @@ int main ()
         FILE *test_fgets_ = fopen("test_fgets_.txt", "r");
 
         printf("%s\n", fgets_(s6, 6, test_fgets_));
+
+        char s7[MAX_SIZE] = "poltorashka";
+
+        printf("%s\n", strdup_(s7));
+
+        char s8[MAX_SIZE] = "";
+
+        printf("%d\n", getline_(s8, 10));
 
         return 0;
 }
@@ -100,7 +113,7 @@ char *strchr_(const char *s, const int ch)
 int strlen_(const char *s)
 {
         int i = 0;
-        while (s[i])
+        while (s[i] != '\0')
                 i++;
 
         return i;
@@ -187,4 +200,21 @@ char *fgets_(char *s, const int n, FILE *stream)
         s[i+1] = '\0';
 
         return s;
+}
+
+char *strdup_(char *s)
+{
+        char *p;
+        p = (char *) malloc(strlen_(s) + 1);
+
+        if (p == NULL)
+                return NULL;
+
+        strcpy_(p, s);
+        return p;
+}
+
+int getline_(char *s, int n)
+{
+        return (fgets_(s, n, stdin)) ? strlen_(s) : NULL;
 }
