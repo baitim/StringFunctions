@@ -8,13 +8,14 @@ char *strchr_(const char *s, int ch);
 
 int strlen_(const char *s);
 
+char *strcpy_(char *s, const char *t);
+
 int main ()
 {
         printf(ANSI_LIGHT_BLUE "# Implementation of string functions\n"
                                "# (c) BAIDIUSENOV TIMUR, 2023\n\n" ANSI_DEFAULT_COLOR);
 
-        puts_("ABOBA 45");
-        puts_("ABOBA 45");
+        puts_("yes");
 
         char *s = strchr_("abcdef", 'c');
 
@@ -23,6 +24,10 @@ int main ()
         int n = strlen_("github?");
 
         printf("%d\n", n);
+
+        char *s1;
+
+        printf("%s\n", strcpy_(s1, "fhg"));
 
         return 0;
 }
@@ -72,4 +77,14 @@ int strlen_(const char *s)
                 i++;
 
         return i;
+}
+
+char *strcpy_(char *s, const char *t)
+{
+        int i = 0;
+
+        while ((s[i] = t[i]) != '\0')
+                i++;
+
+        return s;
 }
