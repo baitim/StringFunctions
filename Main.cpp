@@ -2,13 +2,17 @@
 
 #include <stdio.h>
 
+const int MAX_SIZE = 1000;
+
 int puts_(const char *s);
 
-char *strchr_(const char *s, int ch);
+char *strchr_(const char *s, const int ch);
 
 int strlen_(const char *s);
 
 char *strcpy_(char *s, const char *t);
+
+char *strncpy_(char *s, const char *t, const int n);
 
 int main ()
 {
@@ -17,17 +21,21 @@ int main ()
 
         puts_("yes");
 
-        char *s = strchr_("abcdef", 'c');
+        char *s1 = strchr_("abcdef", 'c');
 
-        printf("%d\n", s - "abcdef" + 1);
+        printf("%d\n", s1 - "abcdef" + 1);
 
         int n = strlen_("github?");
 
         printf("%d\n", n);
 
-        char *s1;
+        char s2[MAX_SIZE] = "";
 
-        printf("%s\n", strcpy_(s1, "fhg"));
+        printf("%s\n", strcpy_(s2, "qwerty"));
+
+        char s3[MAX_SIZE] = "";
+
+        printf("%s\n", strncpy_(s3, "abcdefg", 4));
 
         return 0;
 }
@@ -51,7 +59,7 @@ int puts_(const char *s)
         return 1;
 }
 
-char *strchr_(const char *s, int ch)
+char *strchr_(const char *s, const int ch)
 {
         if (s == NULL)
                 return NULL;
@@ -85,6 +93,23 @@ char *strcpy_(char *s, const char *t)
 
         while ((s[i] = t[i]) != '\0')
                 i++;
+
+        s[i+1] = '\0';
+
+        return s;
+}
+
+char *strncpy_(char *s, const char *t, const int n)
+{
+        int i = 0;
+
+        while ((i < n) && ((s[i] = t[i]) != '\0'))
+                i++;
+
+        while (i < n) {
+                s[i] = '\0';
+                i++;
+        }
 
         return s;
 }
