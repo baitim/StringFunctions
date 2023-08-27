@@ -16,6 +16,8 @@ char *strncpy_(char *s, const char *t, const int n);
 
 char *strcat_(char *s, const char *t);
 
+char *strncat_(char *s, const char *t, const int n);
+
 int main ()
 {
         printf(ANSI_LIGHT_BLUE "# Implementation of string functions\n"
@@ -42,6 +44,10 @@ int main ()
         char s4[MAX_SIZE] = "abc";
 
         printf("%s\n", strcat_(s4, "edf"));
+
+        char s5[MAX_SIZE] = "asd";
+
+        printf("%s\n", strncat_(s5, "fghjk", 2));
 
         return 0;
 }
@@ -132,6 +138,26 @@ char *strcat_(char *s, const char *t)
                 i++;
                 j++;
         }
+
+        s[i+1] = '\0';
+
+        return s;
+}
+
+char *strncat_(char *s, const char *t, const int n)
+{
+        int i = 0;
+        int j = 0;
+
+        while (s[i] != '\0')
+                i++;
+
+        while ((j < n) && ((s[i] = t[j]) != '\0')) {
+                i++;
+                j++;
+        }
+
+        s[i+1] = '\0';
 
         return s;
 }
