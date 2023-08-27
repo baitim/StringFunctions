@@ -18,6 +18,8 @@ char *strcat_(char *s, const char *t);
 
 char *strncat_(char *s, const char *t, const int n);
 
+char *fgets_(char *s, const int n, FILE *stream);
+
 int main ()
 {
         printf(ANSI_LIGHT_BLUE "# Implementation of string functions\n"
@@ -48,6 +50,11 @@ int main ()
         char s5[MAX_SIZE] = "asd";
 
         printf("%s\n", strncat_(s5, "fghjk", 2));
+
+        char s6[MAX_SIZE] = "";
+        FILE *test_fgets_ = fopen("test_fgets_.txt", "r");
+
+        printf("%s\n", fgets_(s6, 6, test_fgets_));
 
         return 0;
 }
@@ -155,6 +162,26 @@ char *strncat_(char *s, const char *t, const int n)
         while ((j < n) && ((s[i] = t[j]) != '\0')) {
                 i++;
                 j++;
+        }
+
+        s[i+1] = '\0';
+
+        return s;
+}
+
+char *fgets_(char *s, const int n, FILE *stream)
+{
+        int i = 0;
+        int c = 0;
+
+        while (i < n-1) {
+                if ((c = getc(stream)) == EOF)
+                        return NULL;
+
+                if ((s[i] = c) == '\n')
+                        break;
+
+                i++;
         }
 
         s[i+1] = '\0';
