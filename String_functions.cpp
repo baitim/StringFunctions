@@ -125,7 +125,7 @@ char *fgets_(char *s, const int n, FILE *stream)
         return s;
 }
 
-char *strdup_(char *src)
+char *strdup_(const char *src)
 {
         char *dest;
         dest = (char *) malloc(strlen_(src) + 1);

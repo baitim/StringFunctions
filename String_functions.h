@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const int MAX_SIZE = 1000;
+
 int puts_(const char *s);
 
 char *strchr_(const char *s, const int ch);
@@ -20,7 +22,7 @@ char *strncat_(char *s, const char *t, const int n);
 
 char *fgets_(char *s, const int n, FILE *stream);
 
-char *strdup_(char *s);
+char *strdup_(const char *s);
 
 size_t getline_(char *s, const int n);
 

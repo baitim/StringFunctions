@@ -5,6 +5,10 @@
 
 void test();
 
+void cmp_data_int(int test, int test_ref);
+
+void cmp_data_char(char *test, char *test_ref);
+
 void test_puts_();
 
 void test_strchr_();
@@ -21,7 +25,7 @@ void test_strncat_();
 
 void test_fgets_();
 
-void test_strdup();
+void test_strdup_();
 
 void test_getline_();
 
