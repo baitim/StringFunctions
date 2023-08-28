@@ -48,67 +48,61 @@ size_t strlen_(const char *s)
         return i;
 }
 
-char *strcpy_(char *s, const char *t)
+char *strcpy_(char *dest, const char *src)
 {
         int i = 0;
 
-        while ((s[i] = t[i]) != '\0')
+        while ((dest[i] = src[i]) != '\0')
                 i++;
 
-        s[i+1] = '\0';
-
-        return s;
+        return dest;
 }
 
-char *strncpy_(char *s, const char *t, const int n)
+char *strncpy_(char *dest, const char *src, const int n)
 {
         int i = 0;
 
-        while ((i < n) && ((s[i] = t[i]) != '\0'))
+        while ((i < n) && ((dest[i] = src[i]) != '\0'))
                 i++;
 
         while (i < n) {
-                s[i] = '\0';
+                dest[i] = '\0';
                 i++;
         }
 
-        return s;
+        return dest;
 }
 
-char *strcat_(char *s, const char *t)
+char *strcat_(char *dest, const char *src)
 {
         int i = 0;
         int j = 0;
 
-        while (s[i] != '\0')
+        while (dest[i] != '\0')
                 i++;
 
-        while ((s[i] = t[j]) != '\0') {
+        while ((dest[i] = src[j]) != '\0') {
                 i++;
                 j++;
         }
 
-        s[i+1] = '\0';
-
-        return s;
+        return dest;
 }
 
-char *strncat_(char *s, const char *t, const int n)
+char *strncat_(char *dest, const char *src, const int n)
 {
         int i = 0;
         int j = 0;
 
-        while (s[i] != '\0')
+        while (dest[i] != '\0')
                 i++;
 
-        while ((j < n) && ((s[i] = t[j]) != '\0')) {
+        while ((j < n) && ((dest[i] = src[j]) != '\0')) {
                 i++;
                 j++;
         }
 
-        s[i+1] = '\0';
-
-        return s;
+        return dest;
 }
 
 char *fgets_(char *s, const int n, FILE *stream)
@@ -116,7 +110,7 @@ char *fgets_(char *s, const int n, FILE *stream)
         int i = 0;
         int c = 0;
 
-        while (i < n-1) {
+        while (i < n - 1) {
                 if ((c = getc(stream)) == EOF)
                         return NULL;
 
@@ -131,16 +125,16 @@ char *fgets_(char *s, const int n, FILE *stream)
         return s;
 }
 
-char *strdup_(char *s)
+char *strdup_(char *src)
 {
-        char *p;
-        p = (char *) malloc(strlen_(s) + 1);
+        char *dest;
+        dest = (char *) malloc(strlen_(src) + 1);
 
-        if (p == NULL)
+        if (dest == NULL)
                 return NULL;
 
-        strcpy_(p, s);
-        return p;
+        strcpy_(dest, src);
+        return dest;
 }
 
 size_t getline_(char *s, const int n)
