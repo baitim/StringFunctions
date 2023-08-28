@@ -16,6 +16,7 @@
         write <code>.\start.exe</code> in terminal
 
 <p align="center"><img src="/images/test_start.png" width = "70%"></p>
+<p align="center"><img src="https://github.com/baitim/StringFunctions/blob/main/images/cat.gif" width="50%"></p>
 
 ## Feats
 
