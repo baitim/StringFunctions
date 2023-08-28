@@ -23,7 +23,11 @@ char *fgets_(char *s, const int n, FILE *stream);
 
 char *strdup_(char *s);
 
-int getline_(char *s, int n);
+int getline_(char *s, const int n);
+
+char *strstr_(const char *s, const char *t);
+
+bool compare_(const char *s, const char *t);
 
 int main ()
 {
@@ -65,9 +69,15 @@ int main ()
 
         printf("%s\n", strdup_(s7));
 
+        printf(ANSI_LIGHT_GREEN "Input string: " ANSI_DEFAULT_COLOR);
+
         char s8[MAX_SIZE] = "";
 
-        printf("%d\n", getline_(s8, 10));
+        printf("%d\n", getline_(s8, 1000));
+
+        char s9[MAX_SIZE] = "1234567890";
+
+        printf("%s\n", strstr_(s9, "456"));
 
         return 0;
 }
@@ -191,7 +201,7 @@ char *fgets_(char *s, const int n, FILE *stream)
                 if ((c = getc(stream)) == EOF)
                         return NULL;
 
-                if ((s[i] = c) == '\n')
+                if ((s[i] = char(c)) == '\n')
                         break;
 
                 i++;
@@ -214,7 +224,36 @@ char *strdup_(char *s)
         return p;
 }
 
-int getline_(char *s, int n)
+int getline_(char *s, const int n)
 {
         return (fgets_(s, n, stdin)) ? strlen_(s) : NULL;
+}
+
+char *strstr_(const char *s, const char *t)
+{
+        int i = 0;
+
+        while (s[i]) {
+                if (compare_(&s[i], &t[i]))
+                        return const_cast<char *>(&s[i]);
+                i++;
+        }
+
+        return NULL;
+}
+
+bool compare_(const char *s, const char *t)
+{
+        int i = 0;
+
+        while (s[i] && t[i]) {
+                if (s[i] != t[i])
+                        return false;
+                i++;
+        }
+
+
+        if (t[i] == '\0')
+                return true;
+        return false;
 }
