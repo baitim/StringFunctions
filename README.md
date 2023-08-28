@@ -16,7 +16,6 @@
         write <code>.\start.exe</code> in terminal
 
 <p align="center"><img src="/images/test_start.png" width = "70%"></p>
-![cat](images/cat.webm)
 
 ## Feats
 
