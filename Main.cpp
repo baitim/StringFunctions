@@ -9,7 +9,7 @@ int puts_(const char *s);
 
 char *strchr_(const char *s, const int ch);
 
-int strlen_(const char *s);
+size_t strlen_(const char *s);
 
 char *strcpy_(char *s, const char *t);
 
@@ -23,11 +23,9 @@ char *fgets_(char *s, const int n, FILE *stream);
 
 char *strdup_(char *s);
 
-int getline_(char *s, const int n);
+size_t getline_(char *s, const int n);
 
 char *strstr_(const char *s, const char *t);
-
-bool compare_(const char *s, const char *t);
 
 int main ()
 {
@@ -120,7 +118,7 @@ char *strchr_(const char *s, const int ch)
         return NULL;
 }
 
-int strlen_(const char *s)
+size_t strlen_(const char *s)
 {
         int i = 0;
         while (s[i] != '\0')
@@ -224,7 +222,7 @@ char *strdup_(char *s)
         return p;
 }
 
-int getline_(char *s, const int n)
+size_t getline_(char *s, const int n)
 {
         return (fgets_(s, n, stdin)) ? strlen_(s) : NULL;
 }
@@ -232,28 +230,19 @@ int getline_(char *s, const int n)
 char *strstr_(const char *s, const char *t)
 {
         int i = 0;
+        int j = 0;
 
         while (s[i]) {
-                if (compare_(&s[i], &t[i]))
-                        return const_cast<char *>(&s[i]);
+                if (s[i] != t[j])
+                        j = 0;
+                else
+                        j++;
+
+                if (!t[j])
+                        return const_cast<char *>(&s[i - j + 1]);
+
                 i++;
         }
 
         return NULL;
-}
-
-bool compare_(const char *s, const char *t)
-{
-        int i = 0;
-
-        while (s[i] && t[i]) {
-                if (s[i] != t[i])
-                        return false;
-                i++;
-        }
-
-
-        if (t[i] == '\0')
-                return true;
-        return false;
 }
