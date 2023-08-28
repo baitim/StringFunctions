@@ -1,4 +1,5 @@
 #include "String_functions.h"
+#include <assert.h>
 
 
 int puts_(const char *s)
@@ -137,7 +138,7 @@ char *fgets_(char *s, const int n, FILE *stream)
 char *strdup_(const char *src)
 {
         char *dest;
-        dest = (char *) malloc(strlen_(src));
+        dest = (char *) calloc(strlen_(src), sizeof(char));
 
         if (dest == NULL) {
                 errno = EBUSY;
@@ -148,28 +149,31 @@ char *strdup_(const char *src)
         return dest;
 }
 
-size_t getline_(char *s, const int n, FILE *stream)
+size_t getline_(char **s, size_t *n, FILE *stream)
 {
-        printf("size of array: %u\n", sizeof(s));
-        if (sizeof(s) / sizeof(s[0]) < n)
-                s = (char *) realloc(s, n * sizeof(char));
-
+        if (*s == nullptr) {
+                *s = (char *) realloc(*s, 10 * sizeof(char));
+                *n = 10;
+        }
 
         int i = 0;
         int c = 0;
 
-        while (i < n - 1) {
-                if ((c = getc(stream)) == EOF)
-                        return -1;
+        while (((c = getc(stream)) != EOF)) {
 
-                if ((s[i] = char(c)) == '\n') {
+                if (((*s)[i] = char(c)) == '\n') {
                         i++;
                         break;
+                }
+
+                if (i == *n-1) {;
+                        *s = (char *) realloc(*s, (*n + 10) * sizeof(char));
+                        *n += 10;
                 }
                 i++;
         }
 
-        s[i+1] = '\0';
+        (*s)[i] = '\0';
 
         return i;
 }

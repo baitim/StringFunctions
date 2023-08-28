@@ -25,7 +25,7 @@ char *fgets_(char *s, const int n, FILE *stream);
 
 char *strdup_(const char *s);
 
-size_t getline_(char *s, const int n, FILE *stream);
+size_t getline_(char **s, size_t *n, FILE *stream);
 
 char *strstr_(const char *s, const char *t);
 

@@ -173,7 +173,7 @@ void test_fgets_()
 
         char test1_to_func[MAX_SIZE] = "";
         char *test1 = fgets_(test1_to_func, 6, test_fgets_);
-        char test1_ref[] = "123\n";
+        char test1_ref[] = "1234\n";
 
         char test2_to_func[MAX_SIZE] = "";
         char *test2 = fgets_(test2_to_func, 5, test_fgets_);
@@ -208,12 +208,14 @@ void test_getline_()
         FILE *test_fgets_ = fopen("Tests.txt", "r");
 
         char *test1_to_func = nullptr;
-        size_t test1 = getline_(test1_to_func, 10, test_fgets_);
-        size_t test1_ref = 4;
+        size_t n1 = 3 * sizeof(char);
+        size_t test1 = getline_(&test1_to_func, &n1, test_fgets_);
+        size_t test1_ref = 5;
 
         char *test2_to_func = nullptr;
-        size_t test2 = getline_(test2_to_func, 5, test_fgets_);
-        size_t test2_ref = 4;
+        size_t n2 = 0 * sizeof(char);
+        size_t test2 = getline_(&test2_to_func, &n2, test_fgets_);
+        size_t test2_ref = 8;
 
         cmp_data_int(test1, test1_ref);
         cmp_data_int(test2, test2_ref);
