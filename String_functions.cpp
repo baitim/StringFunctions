@@ -137,9 +137,9 @@ char *strdup_(const char *src)
         return dest;
 }
 
-size_t getline_(char *s, const int n)
+size_t getline_(char *s, const int n, FILE *stream)
 {
-        return (fgets_(s, n, stdin)) ? strlen_(s) : NULL;
+        return (fgets_(s, n, stream)) ? strlen_(s) : NULL;
 }
 
 char *strstr_(const char *s, const char *t)

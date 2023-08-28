@@ -24,11 +24,11 @@ void test()
 
         test_fgets_();
 
-        /*test_strdup();
+        test_strdup_();
 
         test_getline_();
 
-        test_strstr_();*/
+        test_strstr_();
 }
 
 void cmp_data_int(int test, int test_ref)
@@ -72,7 +72,6 @@ void test_strchr_()
         int test2_ref = 6;
 
         cmp_data_int(test1, test1_ref);
-
         cmp_data_int(test2, test2_ref);
 
         printf("\n");
@@ -89,7 +88,6 @@ void test_strlen_()
         int test2_ref = 4;
 
         cmp_data_int(test1, test1_ref);
-
         cmp_data_int(test2, test2_ref);
 
         printf("\n");
@@ -108,7 +106,6 @@ void test_strcpy_()
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
 
         printf("\n");
@@ -127,7 +124,6 @@ void test_strncpy_()
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
 
         printf("\n");
@@ -146,7 +142,6 @@ void test_strcat_()
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
 
         printf("\n");
@@ -165,7 +160,6 @@ void test_strncat_()
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
 
         printf("\n");
@@ -175,7 +169,7 @@ void test_fgets_()
 {
         printf(ANSI_LIGHT_YELLOW "FGETS_\n" ANSI_DEFAULT_COLOR);
 
-        FILE *test_fgets_ = fopen("test_fgets_.txt", "r");
+        FILE *test_fgets_ = fopen("Tests.txt", "r");
 
         char test1_to_func[MAX_SIZE] = "";
         char *test1 = fgets_(test1_to_func, 6, test_fgets_);
@@ -186,7 +180,6 @@ void test_fgets_()
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
 
         printf("\n");
@@ -203,8 +196,45 @@ void test_strdup_()
         char test2_ref[] = "abcdef";
 
         cmp_data_char(test1, test1_ref);
-
         cmp_data_char(test2, test2_ref);
+
+        printf("\n");
+}
+
+void test_getline_()
+{
+        printf(ANSI_LIGHT_YELLOW "GETLINE_\n" ANSI_DEFAULT_COLOR);
+
+        FILE *test_fgets_ = fopen("Tests.txt", "r");
+
+        char test1_to_func[MAX_SIZE];
+        size_t test1 = getline_(test1_to_func, 10, test_fgets_);
+        size_t test1_ref = 4;
+
+        char test2_to_func[MAX_SIZE];
+        size_t test2 = getline_(test2_to_func, 5, test_fgets_);
+        size_t test2_ref = 4;
+
+        cmp_data_int(test1, test1_ref);
+        cmp_data_int(test2, test2_ref);
+
+        printf("\n");
+}
+
+void test_strstr_()
+{
+        printf(ANSI_LIGHT_YELLOW "STRSTR_\n" ANSI_DEFAULT_COLOR);
+
+        const char *st = "abcdefgh";
+
+        int test1 = strstr_(st, "defg") - st + 1;
+        int test1_ref = 4;
+
+        int test2 = strstr_(st, "cd") - st + 1;
+        int test2_ref = 3;
+
+        cmp_data_int(test1, test1_ref);
+        cmp_data_int(test2, test2_ref);
 
         printf("\n");
 }

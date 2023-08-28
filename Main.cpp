@@ -14,15 +14,7 @@ int main ()
         test();
 #endif
 
-        printf(ANSI_LIGHT_GREEN "Input string: " ANSI_DEFAULT_COLOR);
-
-        char s8[MAX_SIZE] = "";
-
-        printf("%d\n", getline_(s8, 1000));
-
-        char s9[MAX_SIZE] = "1234567890";
-
-        printf("%s\n", strstr_(s9, "456"));
+        printf(ANSI_LIGHT_BLUE "Bye\n" ANSI_DEFAULT_COLOR);
 
         return 0;
 }
