@@ -1,9 +1,24 @@
 #ifndef STRING_FUNCTIONS_H
 #define STRING_FUNCTIONS_H
 
+#include "ANSI_colors.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+
+#ifndef NDEBUG
+#define ASSERT(x)                                                       \
+        if (!(x)) {                                                     \
+                printf(ANSI_LIGHT_RED "Text in assert: (%s)\n", #x);    \
+                printf("File: %s\n", __FILE__);                         \
+                printf("Function: %s\n", __PRETTY_FUNCTION__);          \
+                printf("Line: %d\n" ANSI_DEFAULT_COLOR, __LINE__);      \
+                exit(0);                                                \
+        }
+#else
+#define ASSERT(...)
+#endif
 
 const int MAX_SIZE = 1000;
 

@@ -1,5 +1,4 @@
 #include "String_functions.h"
-#include <assert.h>
 
 
 int puts_(const char *s)
@@ -30,6 +29,7 @@ int puts_(const char *s)
 
 char *strchr_(const char *s, const int ch)
 {
+        ASSERT(s);
         int i = 0;
 
         do {
@@ -52,6 +52,8 @@ size_t strlen_(const char *s)
 
 char *strcpy_(char *dest, const char *src)
 {
+        ASSERT(dest);
+
         int i = 0;
 
         while ((dest[i] = src[i]) != '\0')
@@ -62,6 +64,8 @@ char *strcpy_(char *dest, const char *src)
 
 char *strncpy_(char *dest, const char *src, const int n)
 {
+        ASSERT(dest);
+
         int i = 0;
 
         while ((i < n) && ((dest[i] = src[i]) != '\0'))
@@ -77,6 +81,8 @@ char *strncpy_(char *dest, const char *src, const int n)
 
 char *strcat_(char *dest, const char *src)
 {
+        ASSERT(dest);
+
         int i = 0;
         int j = 0;
 
@@ -93,6 +99,8 @@ char *strcat_(char *dest, const char *src)
 
 char *strncat_(char *dest, const char *src, const int n)
 {
+        ASSERT(dest);
+
         int i = 0;
         int j = 0;
 
@@ -111,6 +119,8 @@ char *strncat_(char *dest, const char *src, const int n)
 
 char *fgets_(char *s, const int n, FILE *stream)
 {
+        ASSERT(s);
+
         int i = 0;
         int c = 0;
 
@@ -137,6 +147,8 @@ char *fgets_(char *s, const int n, FILE *stream)
 
 char *strdup_(const char *src)
 {
+        ASSERT(src);
+
         char *dest;
         dest = (char *) calloc(strlen_(src), sizeof(char));
 
@@ -180,6 +192,8 @@ size_t getline_(char **s, size_t *n, FILE *stream)
 
 char *strstr_(const char *s, const char *t)
 {
+        ASSERT(s);
+
         if (strlen_(t) == 0)
                 return const_cast<char *>(s);
 
