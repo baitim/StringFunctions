@@ -3,40 +3,41 @@
 
 int puts_(const char *s)
 {
-        if (s == NULL)
+        if (s == NULL) {
+                errno = EINTR;
                 return EOF;
+        }
 
         int i = 0;
 
         while (s[i]) {
-                if (putchar(s[i]) == EOF)
+                if (putchar(s[i]) == EOF) {
+                        errno = EINTR;
                         return EOF;
+                }
+
                 i++;
         }
 
-        if (putchar('\n') == EOF)
+        if (putchar('\n') == EOF) {
+                errno = EINTR;
                 return EOF;
+        }
 
         return 1;
 }
 
 char *strchr_(const char *s, const int ch)
 {
-        if (s == NULL)
-                return NULL;
-
-        if ((ch > 255) || (ch < 0))
-                return NULL;
-
         int i = 0;
 
-        while (s[i]) {
+        do {
                 if (s[i] == ch)
                         return const_cast<char *>(&s[i]);
                 i++;
-        }
+        } while (s[i]);
 
-        return NULL;
+        return nullptr;
 }
 
 size_t strlen_(const char *s)
@@ -102,6 +103,8 @@ char *strncat_(char *dest, const char *src, const int n)
                 j++;
         }
 
+        dest[i+1] = '\0';
+
         return dest;
 }
 
@@ -111,11 +114,17 @@ char *fgets_(char *s, const int n, FILE *stream)
         int c = 0;
 
         while (i < n - 1) {
-                if ((c = getc(stream)) == EOF)
-                        return NULL;
+                if ((c = getc(stream)) == EOF) {
+                        if (i == 0) {
+                                errno = EIO;
+                                return nullptr;
+                        } else {
+                                return s;
+                        }
+                }
 
                 if ((s[i] = char(c)) == '\n')
-                        break;
+                        return s;
 
                 i++;
         }
@@ -128,10 +137,12 @@ char *fgets_(char *s, const int n, FILE *stream)
 char *strdup_(const char *src)
 {
         char *dest;
-        dest = (char *) malloc(strlen_(src) + 1);
+        dest = (char *) malloc(strlen_(src));
 
-        if (dest == NULL)
-                return NULL;
+        if (dest == NULL) {
+                errno = EBUSY;
+                return nullptr;
+        }
 
         strcpy_(dest, src);
         return dest;
@@ -139,11 +150,35 @@ char *strdup_(const char *src)
 
 size_t getline_(char *s, const int n, FILE *stream)
 {
-        return (fgets_(s, n, stream)) ? strlen_(s) : NULL;
+        printf("size of array: %u\n", sizeof(s));
+        if (sizeof(s) / sizeof(s[0]) < n)
+                s = (char *) realloc(s, n * sizeof(char));
+
+
+        int i = 0;
+        int c = 0;
+
+        while (i < n - 1) {
+                if ((c = getc(stream)) == EOF)
+                        return -1;
+
+                if ((s[i] = char(c)) == '\n') {
+                        i++;
+                        break;
+                }
+                i++;
+        }
+
+        s[i+1] = '\0';
+
+        return i;
 }
 
 char *strstr_(const char *s, const char *t)
 {
+        if (strlen_(t) == 0)
+                return const_cast<char *>(s);
+
         int i = 0;
         int j = 0;
 
@@ -159,5 +194,5 @@ char *strstr_(const char *s, const char *t)
                 i++;
         }
 
-        return NULL;
+        return nullptr;
 }

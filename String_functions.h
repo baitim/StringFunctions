@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 const int MAX_SIZE = 1000;
 
