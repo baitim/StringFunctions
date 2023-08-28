@@ -2,7 +2,7 @@
 
 ## Description
 
- Implemented string functions
+ Implemented string functions.
 
 ## How to use
 
@@ -16,6 +16,30 @@
         write <code>.\start.exe</code> in terminal
 
 <p align="center"><img src="/images/test_start.png" width = "70%"></p>
+
+## Feats
+
+* int puts_(const char *s);
+
+* char *strchr_(const char *s, const int ch);
+
+* size_t strlen_(const char *s);
+
+* char *strcpy_(char *s, const char *t);
+
+* char *strncpy_(char *s, const char *t, const int n);
+
+* char *strcat_(char *s, const char *t);
+
+* char *strncat_(char *s, const char *t, const int n);
+
+* char *fgets_(char *s, const int n, FILE *stream);
+
+* char *strdup_(const char *s);
+
+* size_t getline_(char **s, size_t *n, FILE *stream);
+
+* char *strstr_(const char *s, const char *t);
 
 ## Support
 **This project is created by [bai_tim](https://github.com/bai_tim)**
