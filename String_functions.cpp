@@ -163,9 +163,10 @@ char *strdup_(const char *src)
 
 size_t getline_(char **s, size_t *n, FILE *stream)
 {
+        const int add_chars = 20;
         if (*s == nullptr) {
-                *s = (char *) realloc(*s, 10 * sizeof(char));
-                *n = 10;
+                *s = (char *) realloc(*s, add_chars * sizeof(char));
+                *n = add_chars;
         }
 
         int i = 0;
@@ -179,8 +180,8 @@ size_t getline_(char **s, size_t *n, FILE *stream)
                 }
 
                 if (i == *n-1) {;
-                        *s = (char *) realloc(*s, (*n + 10) * sizeof(char));
-                        *n += 10;
+                        *s = (char *) realloc(*s, (*n + add_chars) * sizeof(char));
+                        *n += add_chars;
                 }
                 i++;
         }
@@ -193,24 +194,57 @@ size_t getline_(char **s, size_t *n, FILE *stream)
 char *strstr_(const char *s, const char *t)
 {
         ASSERT(s);
+        ASSERT(t);
 
         if (strlen_(t) == 0)
                 return const_cast<char *>(s);
 
-        int i = 0;
-        int j = 0;
+        const int Ns = strlen_(s);
+        const int Nt = strlen_(t);
 
-        while (s[i]) {
-                if (s[i] != t[j])
-                        j = 0;
-                else
-                        j++;
+        long long hash_value[MAX_SIZE];
+        hash_value[0] = 0;
+        long long p_pow = 1;
+        for (int i = 1; i <= Ns; i++) {
+                hash_value[i] = (((hash_value[i - 1] * base_) % m + (s[i] - 'a' + 1)) % m);
+                p_pow = (p_pow * base_) % m;
+        }
 
-                if (!t[j])
-                        return const_cast<char *>(&s[i - j + 1]);
+        long long hash_t = 0;
+        p_pow = 1;
+        for (int i = 0; i < Nt; i++) {
+                hash_t = (((hash_t * base_) % m + (t[i] - 'a' + 1)) % m);
+                p_pow = (p_pow * base_) % m;
+        }
 
-                i++;
+        long long base[MAX_SIZE];
+        base[0] = 1;
+        for (int i = 1; i < Ns + 1; i++)
+                base[i] = (base[i - 1] * base_) % m;
+
+        for (int i = 0; i < Ns - Nt + 1; i++) {
+
+                long long hash_str = (hash_value[Nt + i] - (hash_value[i]*base[Nt]) % m + m * m) % m;
+
+                if (hash_t == hash_str)
+                        return const_cast<char *>(&s[i]);
         }
 
         return nullptr;
+}
+
+bool compare_(const char *s, const char *t)
+{
+        int i = 0;
+
+        while (s[i] && t[i]) {
+                if (s[i] != t[i])
+                        return false;
+                i++;
+        }
+
+
+        if (t[i] == '\0')
+                return true;
+        return false;
 }

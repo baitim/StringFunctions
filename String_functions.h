@@ -22,6 +22,10 @@
 
 const int MAX_SIZE = 1000;
 
+const int base_ = 37;
+
+const long long m = 1e9+9;
+
 int puts_(const char *s);
 
 char *strchr_(const char *s, const int ch);
@@ -43,5 +47,9 @@ char *strdup_(const char *s);
 size_t getline_(char **s, size_t *n, FILE *stream);
 
 char *strstr_(const char *s, const char *t);
+
+bool compare_(const char *s, const char *t);
+
+int *hash1(const char *s);
 
 #endif // STRING_FUNCTIONS_H
