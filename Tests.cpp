@@ -4,8 +4,6 @@
 
 #include <string.h>
 
-#ifdef TEST_ON
-
 void test()
 {
         test_puts_();
@@ -241,5 +239,3 @@ void test_strstr_()
 
         printf("\n");
 }
-
-#endif // TEST_ON

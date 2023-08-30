@@ -16,8 +16,8 @@ int main ()
         test();
 #endif
 
-#ifdef TEST_ON
-        run_time_test();
+#ifdef RUNTIME_TEST_ON
+        runtime_test();
 #endif
 
         printf(ANSI_LIGHT_BLUE "Bye\n" ANSI_DEFAULT_COLOR);
