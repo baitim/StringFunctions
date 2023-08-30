@@ -53,6 +53,8 @@ size_t strlen_(const char *s)
 char *strcpy_(char *dest, const char *src)
 {
         ASSERT(dest);
+        ASSERT(src);
+
 
         int i = 0;
 
@@ -65,6 +67,7 @@ char *strcpy_(char *dest, const char *src)
 char *strncpy_(char *dest, const char *src, const int n)
 {
         ASSERT(dest);
+        ASSERT(src);
 
         int i = 0;
 
@@ -149,8 +152,7 @@ char *strdup_(const char *src)
 {
         ASSERT(src);
 
-        char *dest;
-        dest = (char *) calloc(strlen_(src), sizeof(char));
+        char *dest = (char *) calloc(strlen_(src), sizeof(char));
 
         if (dest == NULL) {
                 errno = EBUSY;
@@ -161,27 +163,41 @@ char *strdup_(const char *src)
         return dest;
 }
 
-size_t getline_(char **s, size_t *n, FILE *stream)
+ssize_t getline_(char **s, size_t *n, FILE *stream)
 {
-        const int add_chars = 20;
+        const double add_chars = 1.5f;
+        int memory_s = 10;
         if (*s == nullptr) {
-                *s = (char *) realloc(*s, add_chars * sizeof(char));
-                *n = add_chars;
+                *s = (char *) realloc(*s, memory_s * sizeof(char));
+                *n = memory_s;
+        }
+
+        if (*s == nullptr) {
+                errno = EIO;
+                return -1;
         }
 
         int i = 0;
         int c = 0;
 
-        while (((c = getc(stream)) != EOF)) {
+        while ((c = getc(stream)) != EOF) {
 
-                if (((*s)[i] = char(c)) == '\n') {
+                (*s)[i] = char(c);
+
+                if ((*s)[i] == '\n') {
                         i++;
                         break;
                 }
 
-                if (i == *n-1) {;
-                        *s = (char *) realloc(*s, (*n + add_chars) * sizeof(char));
-                        *n += add_chars;
+                if (i == *n - 1) {
+                        memory_s = (int) (add_chars * memory_s);
+                        *s = (char *) realloc(*s, memory_s * sizeof(char));
+                        *n = memory_s;
+
+                        if (*s == nullptr) {
+                                errno = EIO;
+                                return -1;
+                        }
                 }
                 i++;
         }
@@ -191,60 +207,72 @@ size_t getline_(char **s, size_t *n, FILE *stream)
         return i;
 }
 
-char *strstr_(const char *s, const char *t)
+char *strstr_(const char *str, const char *substr)
 {
-        ASSERT(s);
-        ASSERT(t);
+        ASSERT(str);
+        ASSERT(substr);
 
-        if (strlen_(t) == 0)
-                return const_cast<char *>(s);
+        if (strlen_(substr) == 0)
+                return const_cast<char *>(str);
 
-        const int Ns = strlen_(s);
-        const int Nt = strlen_(t);
+        const int length_str = strlen_(str);
+        long long *hash_str = (long long *) calloc(length_str + 1, sizeof(long long));
 
-        long long hash_value[MAX_SIZE];
-        hash_value[0] = 0;
-        long long p_pow = 1;
-        for (int i = 1; i <= Ns; i++) {
-                hash_value[i] = (((hash_value[i - 1] * base_) % m + (s[i] - 'a' + 1)) % m);
-                p_pow = (p_pow * base_) % m;
-        }
+        for (int i = 1; i <= length_str; i++)
+                hash_function(&hash_str[i], &hash_str[i-1], str[i-1]);
 
-        long long hash_t = 0;
-        p_pow = 1;
-        for (int i = 0; i < Nt; i++) {
-                hash_t = (((hash_t * base_) % m + (t[i] - 'a' + 1)) % m);
-                p_pow = (p_pow * base_) % m;
-        }
 
-        long long base[MAX_SIZE];
+        const int length_substr = strlen_(substr);
+        long long hash_substr = 0;
+
+        for (int i = 1; i <= length_substr; i++)
+                hash_function(&hash_substr, &hash_substr, substr[i-1]);
+
+
+        long long *base = (long long *) calloc(length_str - length_substr + 1, sizeof(long long));
         base[0] = 1;
-        for (int i = 1; i < Ns + 1; i++)
-                base[i] = (base[i - 1] * base_) % m;
+        for (int i = 1; i < length_substr + 1; i++)
+                base[i] = (base[i - 1] * BASE) % MOD;
 
-        for (int i = 0; i < Ns - Nt + 1; i++) {
+        for (int i = 0; i < length_str - length_substr + 1; i++) {
 
-                long long hash_str = (hash_value[Nt + i] - (hash_value[i]*base[Nt]) % m + m * m) % m;
+                long long hash_str_ = hash_str[length_substr + i] - (hash_str[i] * base[length_substr]) % MOD;
+                hash_str_ = (hash_str_ + MOD * MOD) % MOD;
 
-                if (hash_t == hash_str)
-                        return const_cast<char *>(&s[i]);
+                if ((hash_substr == hash_str_) && (strncmp_(&str[i], substr, strlen_(substr)) == 0))
+                        return const_cast<char *>(&str[i]);
         }
 
         return nullptr;
 }
 
-bool compare_(const char *s, const char *t)
+void hash_function(long long *x, long long *y, char ch)
+{
+        *x = (((*y * BASE) % MOD + (ch - 'a' + 1)) % MOD);
+}
+
+int strncmp_(const char *s, const char *t, size_t count)
 {
         int i = 0;
 
-        while (s[i] && t[i]) {
-                if (s[i] != t[i])
-                        return false;
+        while (s[i] && t[i] && (i < count)) {
+                if (s[i] < t[i])
+                        return -1;
+
+                if (s[i] > t[i])
+                        return 1;
+
                 i++;
         }
 
+        if (!s[i] && !t[i])
+                return 0;
 
-        if (t[i] == '\0')
-                return true;
-        return false;
+        if (!s[i])
+                return -1;
+
+        if (!t[i])
+                return 1;
+
+        return 0;
 }

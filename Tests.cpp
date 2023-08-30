@@ -29,6 +29,7 @@ void test()
         test_getline_();
 
         test_strstr_();
+
 }
 
 void cmp_data_int(int test, int test_ref)
@@ -227,10 +228,10 @@ void test_strstr_()
 {
         printf(ANSI_LIGHT_YELLOW "STRSTR_\n" ANSI_DEFAULT_COLOR);
 
-        const char *st = "kaaaabc";
+        const char *st = "faaaabc";
 
-        int test1 = strstr_(st, "aaabc") - st + 1;
-        int test1_ref = 2;
+        int test1 = strstr_(st, "aabc") - st + 1;
+        int test1_ref = 4;
 
         int test2 = strstr_(st, "") - st + 1;
         int test2_ref = 1;
