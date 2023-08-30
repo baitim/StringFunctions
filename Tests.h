@@ -3,6 +3,12 @@
 
 #define TEST_ON
 
+#include "ANSI_colors.h"
+#include "String_functions.h"
+#include "Tests.h"
+
+#include <string.h>
+
 void test();
 
 void cmp_data_int(int test, int test_ref);

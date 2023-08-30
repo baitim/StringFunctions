@@ -1,8 +1,4 @@
-#include "ANSI_colors.h"
-#include "String_functions.h"
 #include "Tests.h"
-
-#include <string.h>
 
 void test()
 {
@@ -168,18 +164,20 @@ void test_fgets_()
 {
         printf(ANSI_LIGHT_YELLOW "FGETS_\n" ANSI_DEFAULT_COLOR);
 
-        FILE *test_fgets_ = fopen("Tests.txt", "r");
+        FILE *test_file = fopen("Tests.txt", "r");
 
         char test1_to_func[MAX_SIZE] = "";
-        char *test1 = fgets_(test1_to_func, 6, test_fgets_);
+        char *test1 = fgets_(test1_to_func, 6, test_file);
         char test1_ref[] = "1234\n";
 
         char test2_to_func[MAX_SIZE] = "";
-        char *test2 = fgets_(test2_to_func, 5, test_fgets_);
+        char *test2 = fgets_(test2_to_func, 5, test_file);
         char test2_ref[] = "abcd";
 
         cmp_data_char(test1, test1_ref);
         cmp_data_char(test2, test2_ref);
+
+        fclose(test_file);
 
         printf("\n");
 }
@@ -204,20 +202,27 @@ void test_getline_()
 {
         printf(ANSI_LIGHT_YELLOW "GETLINE_\n" ANSI_DEFAULT_COLOR);
 
-        FILE *test_fgets_ = fopen("Tests.txt", "r");
+        FILE *test_file = fopen("Tests.txt", "r");
+
+        if (test_file == NULL) {
+                printf(ANSI_LIGHT_RED "Tests file read error\n\n" ANSI_DEFAULT_COLOR);
+                return;
+        }
 
         char *test1_to_func = nullptr;
         size_t n1 = 3 * sizeof(char);
-        size_t test1 = getline_(&test1_to_func, &n1, test_fgets_);
+        size_t test1 = getline_(&test1_to_func, &n1, test_file);
         size_t test1_ref = 5;
 
         char *test2_to_func = nullptr;
         size_t n2 = 0 * sizeof(char);
-        size_t test2 = getline_(&test2_to_func, &n2, test_fgets_);
+        size_t test2 = getline_(&test2_to_func, &n2, test_file);
         size_t test2_ref = 8;
 
         cmp_data_int(test1, test1_ref);
         cmp_data_int(test2, test2_ref);
+
+        fclose(test_file);
 
         printf("\n");
 }

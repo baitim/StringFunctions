@@ -12,12 +12,12 @@ int main ()
         printf(ANSI_LIGHT_BLUE "# Implementation of string functions\n"
                                "# (c) BAIDIUSENOV TIMUR, 2023\n\n" ANSI_DEFAULT_COLOR);
 
-#ifdef TEST_ON
-        test();
-#endif
-
 #ifdef RUNTIME_TEST_ON
         runtime_test();
+#endif
+
+#ifdef TEST_ON
+        test();
 #endif
 
         printf(ANSI_LIGHT_BLUE "Bye\n" ANSI_DEFAULT_COLOR);

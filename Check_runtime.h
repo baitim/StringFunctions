@@ -4,6 +4,7 @@
 #define RUNTIME_TEST_ON
 
 #include "ANSI_colors.h"
+#include "String_functions.h"
 
 #include <stdio.h>
 #include <time.h>

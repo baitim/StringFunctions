@@ -189,6 +189,8 @@ ssize_t getline_(char **s, size_t *n, FILE *stream)
                         break;
                 }
 
+                i++;
+
                 if (i == *n - 1) {
                         memory_s = (int) (add_chars * memory_s);
                         *s = (char *) realloc(*s, memory_s * sizeof(char));
@@ -199,7 +201,6 @@ ssize_t getline_(char **s, size_t *n, FILE *stream)
                                 return -1;
                         }
                 }
-                i++;
         }
 
         (*s)[i] = '\0';
